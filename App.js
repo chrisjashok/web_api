@@ -1,7 +1,7 @@
 const express = require("express");
-const GenerateOtp = require("./src/otpGenerator");
-const Verfiyotp = require("./src/verifyOTP");
-
+const GenerateOtp = require("./src/Api_Functions/auth/otpGenerator");
+const Verfiyotp = require("./src/Api_Functions/auth/verifyOTP");
+const GetProperties = require("./src/Api_Functions/properties")
 
 const app = express()
 
@@ -17,6 +17,11 @@ app.post('/verifyotp', async(req,res)=>{
    const response = await Verfiyotp(req?.body)
     res.send(response);
 });
+
+app.get('/getproperties',async(req,res)=>{
+    const response = await GetProperties(req?.body)
+    res.send(response);
+})
 
 
 module.exports = app
