@@ -15,7 +15,6 @@ async function GetUser(params = {}) {
 
 async function InsertUser(params) {
     const { error, value } = userSchema.validate(params)
-    console.log('error', error, value)
     const { name, mobile_no, email, preference } = params;
     try {
         const checkquery = await insertUserquery()
