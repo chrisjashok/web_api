@@ -5,34 +5,34 @@ const GetProperties = require("../Api_Functions/properties");
 const { GetUser, InsertUser, UpdateUser } = require("../Api_Functions/user");
 const router = express.Router();
 
+
+
 /**
  * @swagger
  * /api/generateotp:
- *   post:
- *     summary: Generate an OTP
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - mobile_no
- *               - user_type
- *             properties:
- *               mobile_no:
- *                 type: string
- *                 example: "9876543210"
- *               user_type:
- *                 type: string
- *                 example: "user"
+ *   get:
+ *     summary: Get properties by mobile number
+ *     parameters:
+ *       - in: query
+ *         name: mobile_no
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "9876543210"
+ *       - in: query
+ *         name: user_type
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "user"
  *     responses:
  *       200:
- *         description: OTP generated successfully
+ *         description: Properties retrieved successfully
  */
 
-router.post("/generateotp", async (req, res) => {
-  const response = await GenerateOtp(req?.body);
+router.get("/generateotp", async (req, res) => {
+  const{mobile_no,user_type} = req?.query
+  const response = await GenerateOtp({mobile_no,user_type});
   res.send(response);
 });
 
@@ -67,10 +67,38 @@ router.post("/verifyotp", async (req, res) => {
   res.send(response);
 });
 
+/**
+ * @swagger
+ * /api/getproperties:
+ *   get:
+ *     summary: verify OTP 
+ *     parameters:
+ *       - in: query
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           example: 0
+ *     responses:
+ *       200:
+ *         description: Properties retrieved successfully
+ */
+
 router.get("/getproperties", async (req, res) => {
   const response = await GetProperties(req?.body);
   res.send(response);
 });
+
+/**
+ * @swagger
+ * /api/getuser:
+ *   get:
+ *     summary: Get all user
+ 
+ *     responses:
+ *       200:
+ *         description: Properties retrieved successfully
+ */
 
 router.get("/getuser", async (req, res) => {
   const response = await GetUser(req?.body);
