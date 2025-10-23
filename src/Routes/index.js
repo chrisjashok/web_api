@@ -3,9 +3,8 @@ const GenerateOtp = require("../Api_Functions/auth/otpGenerator");
 const Verfiyotp = require("../Api_Functions/auth/verifyOTP");
 const GetProperties = require("../Api_Functions/properties");
 const { GetUser, InsertUser, UpdateUser } = require("../Api_Functions/user");
+const {getPropertyDetail, insertPropertyDetail} = require("../Api_Functions/property_detail");
 const router = express.Router();
-
-
 
 /**
  * @swagger
@@ -31,8 +30,8 @@ const router = express.Router();
  */
 
 router.get("/generateotp", async (req, res) => {
-  const{mobile_no,user_type} = req?.query
-  const response = await GenerateOtp({mobile_no,user_type});
+  const { mobile_no, user_type } = req?.query;
+  const response = await GenerateOtp({ mobile_no, user_type });
   res.send(response);
 });
 
@@ -71,7 +70,7 @@ router.post("/verifyotp", async (req, res) => {
  * @swagger
  * /api/getproperties:
  *   get:
- *     summary: verify OTP 
+ *     summary: verify OTP
  *     parameters:
  *       - in: query
  *         name: id
@@ -114,5 +113,15 @@ router.put("/updateuser", async (req, res) => {
   const response = await UpdateUser(req?.body);
   res.send(response);
 });
+
+router.get("/getprojectlist", async (req, res) => {
+  const response = await getPropertyDetail(req?.body);
+  res.send(response);
+});
+
+router.post("/postprojectlist",async (req, res)=>{
+  const response = await insertPropertyDetail(req?.body)
+  res.send(response);
+})
 
 module.exports = router;
