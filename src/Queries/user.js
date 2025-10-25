@@ -46,7 +46,6 @@ export function updateUserquery(params) {
     query += updates.join(', ');
     query += ` WHERE id = ${params.id}`;
 
-    console.log('query', query)
     return query;
 
 }
