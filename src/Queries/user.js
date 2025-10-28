@@ -1,15 +1,17 @@
 export function getUserquery(params) {
+
     let query = 'SELECT * from users';
     query += ' WHERE status = true'
     if (params.id) {
-        query += ` AND id=${params.id}`
+        query += ` AND id = ${params.id}`
     }
     if (params.name) {
-        query += ` AND name=${params.name}`
+        query += ` AND name = '${params.name}'`
     }
     if (params.email) {
-        query += ` AND email=${params.email}`
+        query += ` AND email = '${params.email}'`
     }
+    console.log('query',query)
     return query
 }
 

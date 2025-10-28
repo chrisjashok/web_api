@@ -7,7 +7,7 @@ const {
   insertPropertyList,
   getPropertyList,
   updatedPropertyLists,
-} = require("../Api_Functions/property_detail");
+} = require("../Api_Functions/property_list");
 const router = express.Router();
 
 /**
@@ -15,6 +15,7 @@ const router = express.Router();
  * /api/generateotp:
  *   get:
  *     summary: Get properties by mobile number
+ *     tags: [Auth]
  *     parameters:
  *       - in: query
  *         name: mobile_no
@@ -44,6 +45,7 @@ router.get("/generateotp", async (req, res) => {
  * /api/verifyotp:
  *   post:
  *     summary: Generate an OTP
+ *     tags: [Auth]
  *     requestBody:
  *       required: true
  *       content:
@@ -75,6 +77,7 @@ router.post("/verifyotp", async (req, res) => {
  * /api/getproperties:
  *   get:
  *     summary: verify OTP
+ *     tags: [User]
  *     parameters:
  *       - in: query
  *         name: id
@@ -97,16 +100,67 @@ router.get("/getproperties", async (req, res) => {
  * /api/getuser:
  *   get:
  *     summary: Get all user
- 
+ *     tags: [User]
+ *     parameters:
+ *       - in: query
+ *         name: id
+ *         required: false
+ *         schema:
+ *           type: integer
+ *           example: 0
+ *       - in: query
+ *         name: name
+ *         required: false
+ *         schema:
+ *           type: string
+ *           example: "chris"
+ *       - in: query
+ *         name: email
+ *         required: false
+ *         schema:
+ *           type: string
+ *           example: "chris@gmail.com"
  *     responses:
  *       200:
  *         description: Properties retrieved successfully
  */
 
 router.get("/getuser", async (req, res) => {
+  debugger;
   const response = await GetUser(req?.query);
   res.send(response);
 });
+
+/**
+ * @swagger
+ * /api/postuser:
+ *   post:
+ *     summary: 
+ *     tags: [User]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *               - mobile_no
+ *               - email
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: "chris"
+ *               mobile_no:
+ *                 type: string
+ *                 example: "9487842846"
+ *               email:
+ *                 type: string
+ *                 example: "9487842846"
+ *     responses:
+ *       200:
+ *         description: OTP generated successfully
+ */
 
 router.post("/postuser", async (req, res) => {
   const response = await InsertUser(req?.body);
@@ -144,7 +198,7 @@ router.put("/updateuser", async (req, res) => {
  *         schema:
  *           type: string
  *         required: false
- *         description: house_type 
+ *         description: house_type
  *         example: "1 BHK"
  *     responses:
  *       200:
@@ -294,9 +348,10 @@ router.post("/postprojectlist", async (req, res) => {
  */
 
 router.put("/updatedprojectlist", async (req, res) => {
-  debugger
   const response = await updatedPropertyLists(req?.body);
   res.send(response);
 });
+
+router.get("/propertydetails", async (req, res) => {});
 
 module.exports = router;
