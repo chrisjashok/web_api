@@ -15,6 +15,11 @@ const definition = {
     },
     {
       name: "User",
+      description: "For access Users details",
+    },
+    {
+      name: "Properties",
+      description: "For access Users Properties",
     },
   ],
   servers: [

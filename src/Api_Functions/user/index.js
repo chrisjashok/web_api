@@ -49,7 +49,7 @@ async function InsertUser(params) {
 
 async function UpdateUser(params) {
   try {
-    const { query, values } = updatePropListQuery(params);
+    const { query, values } = updateUserquery(params);
 
     const checkResult = await db.query(query, values);
     return checkResult?.rows;

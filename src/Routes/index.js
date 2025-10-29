@@ -74,29 +74,6 @@ router.post("/verifyotp", async (req, res) => {
 
 /**
  * @swagger
- * /api/getproperties:
- *   get:
- *     summary: verify OTP
- *     tags: [User]
- *     parameters:
- *       - in: query
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *           example: 0
- *     responses:
- *       200:
- *         description: Properties retrieved successfully
- */
-
-router.get("/getproperties", async (req, res) => {
-  const response = await GetProperties(req?.query);
-  res.send(response);
-});
-
-/**
- * @swagger
  * /api/getuser:
  *   get:
  *     summary: Get all user
@@ -147,6 +124,7 @@ router.get("/getuser", async (req, res) => {
  *               - name
  *               - mobile_no
  *               - email
+ *               - preference
  *             properties:
  *               name:
  *                 type: string
@@ -156,7 +134,10 @@ router.get("/getuser", async (req, res) => {
  *                 example: "9487842846"
  *               email:
  *                 type: string
- *                 example: "9487842846"
+ *                 example: "swagger@gmail.com"
+ *               preference:
+ *                 type: string
+ *                 example: "1 BHK"
  *     responses:
  *       200:
  *         description: OTP generated successfully
@@ -167,8 +148,90 @@ router.post("/postuser", async (req, res) => {
   res.send(response);
 });
 
+/**
+ * @swagger
+ * /api/updateuser:
+ *   put:
+ *     summary: Update an existing property
+ *     description: API to update a property in the property list.
+ *     tags: [User]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - id       # the primary key of the property to update
+ *             properties:
+ *               id:
+ *                 type: integer
+ *                 example: 1
+ *               name:
+ *                 type: string
+ *                 example: "Chris"
+ *               mobile_no:
+ *                 type: string
+ *                 example: "9876543210"
+ *               email:
+ *                 type: string
+ *                 example: "swaggerupdate@gmail.com"
+ *               preference:
+ *                 type: string
+ *                 example: "1 BHK"
+ *               status:
+ *                 type: boolean
+ *                 example: true
+ *     responses:
+ *       200:
+ *         description: Property updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Property updated successfully"
+ *                 data:
+ *                   type: object
+ *                   example:
+ *                      id: 1
+ *                      name: "Chris"
+ *                      email: "swaggerupdated@gmail.com"
+ *                      mobile_no: "9876543210"
+ *                      preference: "1 BHK"
+ *                      status: true
+ *       400:
+ *         description: Invalid input
+ *       404:
+ *         description: Property not found
+ */
 router.put("/updateuser", async (req, res) => {
   const response = await UpdateUser(req?.body);
+  res.send(response);
+});
+
+/**
+ * @swagger
+ * /api/getproperties:
+ *   get:
+ *     summary: Get all properties from DB
+ *     tags: [Properties]
+ *     parameters:
+ *       - in: query
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           example: 0
+ *     responses:
+ *       200:
+ *         description: Properties retrieved successfully
+ */
+
+router.get("/getproperties", async (req, res) => {
+  const response = await GetProperties(req?.query);
   res.send(response);
 });
 
@@ -178,6 +241,7 @@ router.put("/updateuser", async (req, res) => {
  *   get:
  *     summary: get project list
  *     description: api for getting properties.
+ *     tags: [Properties]
  *     parameters:
  *       - in: query
  *         name: id
@@ -218,6 +282,7 @@ router.get("/getprojectlist", async (req, res) => {
  *   post:
  *     summary: Add a new property
  *     description: API to insert a new property into the property list.
+ *     tags: [Properties]
  *     requestBody:
  *       required: true
  *       content:
@@ -284,10 +349,11 @@ router.post("/postprojectlist", async (req, res) => {
 
 /**
  * @swagger
- * /api/updateprojectlist:id:
+ * /api/updatedprojectlist:
  *   put:
  *     summary: Update an existing property
  *     description: API to update a property in the property list.
+ *     tags: [Properties]
  *     requestBody:
  *       required: true
  *       content:
@@ -348,10 +414,13 @@ router.post("/postprojectlist", async (req, res) => {
  */
 
 router.put("/updatedprojectlist", async (req, res) => {
+  console.log('req',req)
   const response = await updatedPropertyLists(req?.body);
   res.send(response);
 });
 
-router.get("/propertydetails", async (req, res) => {});
+router.get("/propertydetails", async (req, res) => {
+  
+});
 
 module.exports = router;
