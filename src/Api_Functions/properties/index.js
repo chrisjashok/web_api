@@ -1,15 +1,23 @@
-const db = require('../../DB connection');
-const { getProperties } = require('../../Queries/properties')
+const db = require("../../DB connection");
+const { default: getProperties, default: Properties } = require("../../Queries/properties");
 
-async function GetProperties(params={}) {
-    try {
-        const checkquery = [await getProperties(params)]
-        const checkResult = await db.query(...checkquery)
-        const data = checkResult?.rows
-        return data;
-    } catch (err) {
-        return err
+
+async function GetProperties(params = {}) {
+  debugger
+  try {
+    const result = await Properties.findAll({
+      where: { ...params, status: true },
+    });
+    if (result === null || result.length === 0) {
+      return { message: "Data doesn't exist" };
     }
+    return {
+      message: "successfully returned",
+      data: result,
+    };
+  } catch (error) {
+    return error;
+  }
 }
 
-module.exports = GetProperties
+module.exports = GetProperties;

@@ -8,7 +8,10 @@ const {
   getPropertyList,
   updatedPropertyLists,
 } = require("../Api_Functions/property_list");
+const { getPropertyDetails } = require("../Api_Functions/property_details");
 const router = express.Router();
+
+
 
 /**
  * @swagger
@@ -221,7 +224,7 @@ router.put("/updateuser", async (req, res) => {
  *     parameters:
  *       - in: query
  *         name: id
- *         required: true
+ *         required: false
  *         schema:
  *           type: integer
  *           example: 0
@@ -313,11 +316,6 @@ router.get("/getprojectlist", async (req, res) => {
  *                 type: string
  *                 format: url
  *                 example: "https://github.com/chrisjashok/assets/blob/main/images/kitchen.webp?raw=true"
- *               images:
- *                 type: array
- *                 items:
- *                   type: string
- *                 example: []
  *               amenities:
  *                 type: array
  *                 items:
@@ -382,11 +380,6 @@ router.post("/postprojectlist", async (req, res) => {
  *                 type: string
  *                 format: url
  *                 example: "https://github.com/chrisjashok/assets/blob/main/images/kitchen.webp?raw=true"
- *               images:
- *                 type: array
- *                 items:
- *                   type: string
- *                 example: []
  *               amenities:
  *                 type: array
  *                 items:
@@ -414,13 +407,43 @@ router.post("/postprojectlist", async (req, res) => {
  */
 
 router.put("/updatedprojectlist", async (req, res) => {
-  console.log('req',req)
   const response = await updatedPropertyLists(req?.body);
   res.send(response);
 });
 
+/**
+ * @swagger
+ * /api/propertydetails:
+ *   get:
+ *     summary: get property details
+ *     description: api for getting properties.
+ *     tags: [Properties]
+ *     parameters:
+ *       - in: query
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: false
+ *         description: Unique id
+ *         example: 1
+ *       - in: query
+ *         name: owner_id
+ *         schema:
+ *           type: integer
+ *         required: false
+ *         description: Unique id for details
+ *         example: 1
+ *     responses:
+ *       200:
+ *         description: OTP verified successfully
+ *       400:
+ *         description: Invalid or missing parameters
+ */
+
 router.get("/propertydetails", async (req, res) => {
-  
+  const filters = {...req?.query}
+  const response = await getPropertyDetails(filters)
+  res.send(response)
 });
 
 module.exports = router;

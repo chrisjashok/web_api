@@ -31,7 +31,6 @@ export function insertPropertyLists() {
       "location", 
       price, 
       img, 
-      images, 
       amenities, 
       created_at, 
       created_by, 
@@ -40,7 +39,7 @@ export function insertPropertyLists() {
       visibility,
       status
     )
-    VALUES($1, $2, $3, $4, $5, $6, $7, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, true,true)
+    VALUES($1, $2, $3, $4, $5, $6, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, true,true)
     RETURNING *;
   `;
   return query;
@@ -58,7 +57,6 @@ const PropertyList = sequelize.define("PropertyList", {
   location: DataTypes.STRING,
   price: DataTypes.STRING,
   img: DataTypes.STRING,
-  images: DataTypes.JSONB,
   amenities: DataTypes.JSONB,
   visibility: {
     type: DataTypes.BOOLEAN,
